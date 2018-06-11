@@ -8,7 +8,8 @@ import android.widget.Button;
 import com.troy.playground.R;
 
 public class SlideToastActivity extends AppCompatActivity implements View.OnClickListener {
-    Button mTriggerButton;
+    private Button triggerButton;
+    private SlideContainer slideContainer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,15 +18,16 @@ public class SlideToastActivity extends AppCompatActivity implements View.OnClic
     }
 
     void initUI(){
-        mTriggerButton = findViewById(R.id.btn_trigger_slide);
-        mTriggerButton.setOnClickListener(this);
+        slideContainer = findViewById(R.id.fl_container);
+        triggerButton = findViewById(R.id.btn_trigger_slide);
+        triggerButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_trigger_slide:
-                
+                slideContainer.showView();
                 break;
             default:
                 break;
