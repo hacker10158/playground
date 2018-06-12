@@ -35,11 +35,18 @@ public class SlideToastActivity extends AppCompatActivity implements View.OnClic
         switch (view.getId()) {
             case R.id.btn_trigger_slide:
                 targetCounter++;
-                targetView.setText(String.valueOf(targetCounter));
-                slideToastController.showView();
+                String number = String.valueOf(targetCounter);
+                targetView.setText(number);
+                slideToastController.showView(number);
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        slideToastController.clean();
     }
 }
