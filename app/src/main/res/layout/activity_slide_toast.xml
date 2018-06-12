@@ -13,7 +13,17 @@
         android:layout_alignParentTop="true"
         android:text="Trigger" />
 
-    <com.troy.playground.slidetoast.SlideContainer
+    <TextView
+        android:id="@+id/tv_target_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_trigger_slide"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:textSize="16sp"
+        tools:text="0"/>
+
+    <RelativeLayout
         android:id="@+id/fl_container"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -35,5 +45,6 @@
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true" />
-    </com.troy.playground.slidetoast.SlideContainer>
+
+    </RelativeLayout>
 </RelativeLayout>

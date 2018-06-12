@@ -4,12 +4,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.troy.playground.R;
 
 public class SlideToastActivity extends AppCompatActivity implements View.OnClickListener {
     private Button triggerButton;
-    private SlideContainer slideContainer;
+    private TextView targetView;
+    private View slideContainer;
+    private SlideToastController slideToastController;
+    private int targetCounter = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,13 +25,18 @@ public class SlideToastActivity extends AppCompatActivity implements View.OnClic
         slideContainer = findViewById(R.id.fl_container);
         triggerButton = findViewById(R.id.btn_trigger_slide);
         triggerButton.setOnClickListener(this);
+        targetView = findViewById(R.id.tv_target_count);
+        slideToastController = new SlideToastController();
+        slideToastController.init(slideContainer);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_trigger_slide:
-                slideContainer.showView();
+                targetCounter++;
+                targetView.setText(String.valueOf(targetCounter));
+                slideToastController.showView();
                 break;
             default:
                 break;

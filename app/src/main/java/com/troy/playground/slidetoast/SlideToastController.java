@@ -1,13 +1,10 @@
 package com.troy.playground.slidetoast;
 
-import android.content.Context;
-import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.troy.playground.R;
@@ -15,40 +12,39 @@ import com.troy.playground.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SlideContainer extends RelativeLayout {
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
+public class SlideToastController {
     private final static int STATUS_IDLE        = 0;
-    private final static int STATUS_SHOW       = 1;
+    private final static int STATUS_SHOW        = 1;
 
-    private List<View> toastItems = new ArrayList<>();
-    private int counter = 0;
-    public SlideContainer(Context context) {
-        super(context);
-        init(context);
-    }
+    private List<View> toastItems;
+    private int currentCounter = 0;
+    private View containerView;
 
-    public SlideContainer(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-    }
+    public void init(View view) {
+        if (containerView != null) {
+            return;
+        }
+        containerView = view;
 
-    private void init(Context context) {
+        if (toastItems == null) {
+            toastItems = new ArrayList<>();
+        }
+        toastItems.clear();
 
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-
-        View item1 = findViewById(R.id.toast_item_1);
+        View item1 = containerView.findViewById(R.id.toast_item_1);
         item1.setTag(STATUS_IDLE);
-        View item2 = findViewById(R.id.toast_item_2);
+        View item2 = containerView.findViewById(R.id.toast_item_2);
         item2.setTag(STATUS_IDLE);
-        View item3 = findViewById(R.id.toast_item_3);
+        View item3 = containerView.findViewById(R.id.toast_item_3);
         item3.setTag(STATUS_IDLE);
         toastItems.add(item1);
         toastItems.add(item2);
         toastItems.add(item3);
     }
+
     public void showView(){
         View view = getIdleItem();
         if (view == null)
@@ -56,7 +52,7 @@ public class SlideContainer extends RelativeLayout {
         showAnimation(view);
     }
 
-    View getIdleItem() {
+    private View getIdleItem() {
         for (View view : toastItems) {
             if (view.getTag().equals(STATUS_IDLE)) {
                 return view;
@@ -68,8 +64,8 @@ public class SlideContainer extends RelativeLayout {
 
     private void showAnimation(final View view) {
         TextView textView = view.findViewById(R.id.item_text);
-        textView.setText(String.valueOf( counter));
-        counter++;
+        textView.setText(String.valueOf(currentCounter));
+        currentCounter++;
 
         AnimationSet amSet = new AnimationSet(false);
         Animation amFadeIn = new AlphaAnimation(0, 1.0f);
@@ -109,7 +105,7 @@ public class SlideContainer extends RelativeLayout {
             }
         });
 
-        Animation amTranslateIn = new TranslateAnimation( - view.getWidth(), 0.0f, 0.0f, 0.0f);
+        Animation amTranslateIn = new TranslateAnimation(-view.getWidth(), 0.0f, 0.0f, 0.0f);
         amTranslateIn.setDuration(300);
 
         Animation amTranslateOut = new TranslateAnimation(0.0f, 0.0f, 0.0f, -100.0f);
