@@ -2,14 +2,18 @@ package com.troy.playground.main;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.troy.playground.R;
+import com.troy.playground.base.BaseFragment;
 import com.troy.playground.databinding.ActivityMainBinding;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity {
-    ActivityMainBinding binding;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +23,17 @@ public class MainActivity extends DaggerAppCompatActivity {
     }
 
     void initUI(){
-
+        showFragment(BaseFragment.newInstance());
     }
 
+    private void showFragment(Fragment fragment) {
+        String backStateName = fragment.getClass().getName();
+
+        FragmentManager manager = getSupportFragmentManager();
+
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(R.id.fl_fragment_container, fragment, backStateName);
+        ft.addToBackStack(backStateName);
+        ft.commitAllowingStateLoss();
+    }
 }

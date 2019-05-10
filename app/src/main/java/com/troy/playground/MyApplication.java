@@ -36,5 +36,4 @@ public class MyApplication extends DaggerApplication {
         return ((MyApplication)context.getApplicationContext()).appComponent;
     }
 
-
 }
