@@ -1,12 +1,14 @@
-package com.troy.playground;
+package com.troy.playground.main;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
+import com.troy.playground.R;
 import com.troy.playground.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+import dagger.android.support.DaggerAppCompatActivity;
+
+public class MainActivity extends DaggerAppCompatActivity {
     ActivityMainBinding binding;
 
     @Override
@@ -17,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void initUI(){
-        
+
     }
 
 }
