@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Playground</string>
+    <string name="thank_you">Thank You !!</string>
+    <string name="omlet_version">Omlet v%s</string>
 </resources>

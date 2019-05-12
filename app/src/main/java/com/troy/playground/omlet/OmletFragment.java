@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.troy.playground.R;
-import com.troy.playground.base.viewmodel.BaseViewModel;
-import com.troy.playground.databinding.FragmentBaseBinding;
 import com.troy.playground.databinding.FragmentOmletBinding;
 import com.troy.playground.omlet.view.OmletView;
 import com.troy.playground.omlet.viewmodel.OmletViewModel;
@@ -65,7 +63,7 @@ public class OmletFragment extends DaggerFragment implements OmletView {
     }
 
     private void init () {
-        binding.tvHelloWorld.setText("Omlet v " + versionName);
+        binding.tvHelloWorld.setText(getString(R.string.omlet_version, versionName));
     }
 
     @Override
