@@ -11,9 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.troy.playground.R;
+import com.troy.playground.base.model.ImageData;
 import com.troy.playground.base.view.BaseView;
 import com.troy.playground.base.viewmodel.BaseViewModel;
 import com.troy.playground.databinding.FragmentBaseBinding;
+import com.troy.playground.utility.Log;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -63,12 +67,20 @@ public class BaseFragment extends DaggerFragment implements BaseView {
     }
 
     private void init () {
-        binding.tvHelloWorld.setText("v " + versionName);
+        binding.tvHelloWorld.setText("Search " + versionName);
+        viewModel.search();
     }
 
     @Override
     public void onDestroy() {
         compositeDisposable.dispose();
         super.onDestroy();
+    }
+
+    @Override
+    public void onFinishFetch(List<ImageData> data) {
+        for (ImageData imageData : data) {
+            Log.d("5566 " + imageData.getWebformatURL());
+        }
     }
 }

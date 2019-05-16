@@ -22,8 +22,8 @@ public class BaseModule {
     }
 
     @Provides
-    public BaseViewModel provideBaseViewModel(TroyClientInterface troyClientInterface) {
-        return new BaseViewModel(troyClientInterface);
+    public BaseViewModel provideBaseViewModel(BaseView baseView, TroyClientInterface troyClientInterface) {
+        return new BaseViewModel(baseView, troyClientInterface);
     }
 
     @Provides

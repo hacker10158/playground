@@ -9,7 +9,7 @@
             type="com.troy.playground.base.viewmodel.BaseViewModel" />
     </data>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackground">
@@ -20,5 +20,34 @@
             android:layout_height="wrap_content"
             tools:text="Hello World!" />
 
-    </FrameLayout>
+        <EditText
+            android:id="@+id/et_input_field"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:hint="搜尋"
+            android:background="#FFFFFF"/>
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/et_input_field"
+            android:src="@drawable/search"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/grid_icon"/>
+
+
+    </RelativeLayout>
 </layout>
