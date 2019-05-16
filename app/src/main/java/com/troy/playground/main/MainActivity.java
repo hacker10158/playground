@@ -33,7 +33,7 @@ public class MainActivity extends DaggerAppCompatActivity {
 
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(R.id.fl_fragment_container, fragment, backStateName);
-        ft.addToBackStack(backStateName);
+//        ft.addToBackStack(backStateName);
         ft.commitAllowingStateLoss();
     }
 }

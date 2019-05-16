@@ -6,6 +6,7 @@ import com.troy.playground.ViewModelProviderFactory;
 import com.troy.playground.base.BaseFragment;
 import com.troy.playground.base.view.BaseView;
 import com.troy.playground.base.viewmodel.BaseViewModel;
+import com.troy.playground.server.TroyClientInterface;
 
 import javax.inject.Named;
 
@@ -21,8 +22,8 @@ public class BaseModule {
     }
 
     @Provides
-    public BaseViewModel provideBaseViewModel() {
-        return new BaseViewModel();
+    public BaseViewModel provideBaseViewModel(TroyClientInterface troyClientInterface) {
+        return new BaseViewModel(troyClientInterface);
     }
 
     @Provides

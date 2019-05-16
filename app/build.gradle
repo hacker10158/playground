@@ -26,6 +26,8 @@ android {
 
 ext {
     android_support_version = '27.1.1'
+    okhttp_version = '3.11.0'
+    retrofit_version = '2.3.0'
     rxjava_version = '2.1.6'
     rxandroid_version = '2.0.1'
     rxrelay_version = '2.0.0'
@@ -71,4 +73,15 @@ dependencies {
     // View Model
     implementation "android.arch.lifecycle:extensions:$viewmodel_version"
     annotationProcessor "android.arch.lifecycle:compiler:$viewmodel_version"
+
+    // Okhttp
+    implementation "com.squareup.okhttp3:okhttp:${okhttp_version}"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:${okhttp_version}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${okhttp_version}"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:${retrofit_version}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofit_version}"
+    // Retrofit with RxJava
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofit_version}"
 }
