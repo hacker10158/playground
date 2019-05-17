@@ -5,5 +5,5 @@ import com.troy.playground.server.response.SearchPictureResponse;
 import io.reactivex.Single;
 
 public interface TroyClientInterface {
-    Single<SearchPictureResponse> searchPicture();
+    Single<SearchPictureResponse> searchPicture(String keyword);
 }

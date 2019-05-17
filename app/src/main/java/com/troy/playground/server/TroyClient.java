@@ -29,7 +29,6 @@ public class TroyClient implements TroyClientInterface {
     private boolean isRelease = false;
 
     public TroyClient() {
-
         Dispatcher dispatcher = new Dispatcher();
         dispatcher.setMaxRequests(MAX_REQUESTS);
         dispatcher.setMaxRequestsPerHost(MAX_REQUESTS_PER_HOST);
@@ -73,11 +72,11 @@ public class TroyClient implements TroyClientInterface {
 
         @Headers("Content-Type:application/json")
         @GET("api/")
-        Single<SearchPictureResponse> searchPicture(@Query("key") String key);
+        Single<SearchPictureResponse> searchPicture(@Query("key") String key, @Query("q") String keyword);
     }
 
     @Override
-    public Single<SearchPictureResponse> searchPicture() {
-        return myService.searchPicture("12494785-8e935ca087834ee899281ef5f");
+    public Single<SearchPictureResponse> searchPicture(String keyword) {
+        return myService.searchPicture("12494785-8e935ca087834ee899281ef5f", keyword);
     }
 }

@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProvider;
 
 import com.troy.playground.ViewModelProviderFactory;
 import com.troy.playground.base.BaseFragment;
+import com.troy.playground.base.SearchImageAdapter;
 import com.troy.playground.base.view.BaseView;
 import com.troy.playground.base.viewmodel.BaseViewModel;
 import com.troy.playground.server.TroyClientInterface;
@@ -24,6 +25,11 @@ public class BaseModule {
     @Provides
     public BaseViewModel provideBaseViewModel(BaseView baseView, TroyClientInterface troyClientInterface) {
         return new BaseViewModel(baseView, troyClientInterface);
+    }
+
+    @Provides
+    public SearchImageAdapter provideSearchImageAdapter() {
+        return new SearchImageAdapter();
     }
 
     @Provides

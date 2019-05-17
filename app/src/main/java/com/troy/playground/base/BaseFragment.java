@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import com.troy.playground.base.model.ImageData;
 import com.troy.playground.base.view.BaseView;
 import com.troy.playground.base.viewmodel.BaseViewModel;
 import com.troy.playground.databinding.FragmentBaseBinding;
-import com.troy.playground.utility.Log;
 
 import java.util.List;
 
@@ -37,6 +37,9 @@ public class BaseFragment extends DaggerFragment implements BaseView {
     @Inject
     @Named("base")
     ViewModelProvider.Factory viewModelFactory;
+
+    @Inject
+    SearchImageAdapter searchImageAdapter;
 
     private CompositeDisposable compositeDisposable;
 
@@ -67,8 +70,10 @@ public class BaseFragment extends DaggerFragment implements BaseView {
     }
 
     private void init () {
-        binding.tvHelloWorld.setText("Search " + versionName);
-        viewModel.search();
+        binding.tvVersion.setText("Search v" + versionName);
+
+        binding.rvContent.setAdapter(searchImageAdapter);
+        binding.rvContent.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -79,8 +84,6 @@ public class BaseFragment extends DaggerFragment implements BaseView {
 
     @Override
     public void onFinishFetch(List<ImageData> data) {
-        for (ImageData imageData : data) {
-            Log.d("5566 " + imageData.getWebformatURL());
-        }
+        searchImageAdapter.updateData(data);
     }
 }
