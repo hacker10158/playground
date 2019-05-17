@@ -4,6 +4,8 @@ public class ImageData {
     String largeImageURL;
     String webformatURL;
     String previewURL;
+    int webformatHeight;
+    int webformatWidth;
 
     public String getLargeImageURL() {
         return largeImageURL;
@@ -27,5 +29,21 @@ public class ImageData {
 
     public void setPreviewURL(String previewURL) {
         this.previewURL = previewURL;
+    }
+
+    public int getWebformatHeight() {
+        return webformatHeight;
+    }
+
+    public void setWebformatHeight(int webformatHeight) {
+        this.webformatHeight = webformatHeight;
+    }
+
+    public int getWebformatWidth() {
+        return webformatWidth;
+    }
+
+    public void setWebformatWidth(int webformatWidth) {
+        this.webformatWidth = webformatWidth;
     }
 }

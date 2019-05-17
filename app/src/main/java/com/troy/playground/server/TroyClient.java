@@ -69,7 +69,6 @@ public class TroyClient implements TroyClientInterface {
     }
 
     public interface MyService {
-
         @Headers("Content-Type:application/json")
         @GET("api/")
         Single<SearchPictureResponse> searchPicture(@Query("key") String key, @Query("q") String keyword);

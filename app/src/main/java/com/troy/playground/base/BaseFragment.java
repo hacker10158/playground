@@ -16,6 +16,7 @@ import com.troy.playground.base.model.ImageData;
 import com.troy.playground.base.view.BaseView;
 import com.troy.playground.base.viewmodel.BaseViewModel;
 import com.troy.playground.databinding.FragmentBaseBinding;
+import com.troy.playground.utility.Log;
 
 import java.util.List;
 
@@ -62,7 +63,6 @@ public class BaseFragment extends DaggerFragment implements BaseView {
         return binding.getRoot();
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -84,6 +84,7 @@ public class BaseFragment extends DaggerFragment implements BaseView {
 
     @Override
     public void onFinishFetch(List<ImageData> data) {
+        Log.d("5566 onFinishFetch");
         searchImageAdapter.updateData(data);
     }
 }

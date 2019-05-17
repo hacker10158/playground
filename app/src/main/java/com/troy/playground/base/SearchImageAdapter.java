@@ -11,7 +11,7 @@ import com.troy.playground.databinding.SearchImageItemBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchImageAdapter extends RecyclerView.Adapter<SearchPictureViewHolder> {
+public class SearchImageAdapter extends RecyclerView.Adapter<SearchImageViewHolder> {
     List<ImageData> dataList;
 
     public SearchImageAdapter() {
@@ -19,13 +19,13 @@ public class SearchImageAdapter extends RecyclerView.Adapter<SearchPictureViewHo
     }
 
     @Override
-    public SearchPictureViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SearchImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        return new SearchPictureViewHolder(SearchImageItemBinding.inflate(layoutInflater, parent, false));
+        return new SearchImageViewHolder(SearchImageItemBinding.inflate(layoutInflater, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final SearchPictureViewHolder holder, int position) {
+    public void onBindViewHolder(final SearchImageViewHolder holder, int position) {
         holder.bindView(dataList.get(position));
     }
 

@@ -13,5 +13,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="1234"/>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/iv_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </layout>
