@@ -16,7 +16,6 @@ public class SearchImageViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindView(ImageData imageData) {
-        binding.tvId.setText(imageData.getWebformatURL());
 //        binding.ivImage.setImageURI(imageData.getWebformatURL());
         ViewGroup.LayoutParams params = binding.ivImage.getLayoutParams();
         params.width = imageData.getWebformatWidth();

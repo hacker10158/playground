@@ -48,4 +48,8 @@ public class BaseViewModel extends AutoDisposeViewModel {
         addDisposable(disposable);
     }
 
+    public void onClickSwitchDisplayType() {
+        baseView.switchDisplayType();
+    }
+
 }

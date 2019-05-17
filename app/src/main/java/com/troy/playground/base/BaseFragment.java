@@ -6,7 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +30,7 @@ public class BaseFragment extends DaggerFragment implements BaseView {
 
     private FragmentBaseBinding binding;
     private BaseViewModel viewModel;
+    private StaggeredGridLayoutManager layoutManager;
 
     @Inject
     @Named("versionName")
@@ -73,7 +74,13 @@ public class BaseFragment extends DaggerFragment implements BaseView {
         binding.tvVersion.setText("Search v" + versionName);
 
         binding.rvContent.setAdapter(searchImageAdapter);
-        binding.rvContent.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        int spanCount = 3;
+        layoutManager = new StaggeredGridLayoutManager(
+                spanCount,
+                StaggeredGridLayoutManager.VERTICAL);
+
+        binding.rvContent.setLayoutManager(layoutManager);
     }
 
     @Override
@@ -84,7 +91,17 @@ public class BaseFragment extends DaggerFragment implements BaseView {
 
     @Override
     public void onFinishFetch(List<ImageData> data) {
-        Log.d("5566 onFinishFetch");
+        Log.d("onFinishFetch");
         searchImageAdapter.updateData(data);
+    }
+
+    @Override
+    public void switchDisplayType() {
+        int count = layoutManager.getSpanCount();
+        if (count == 1) {
+            layoutManager.setSpanCount(3);
+        } else {
+            layoutManager.setSpanCount(1);
+        }
     }
 }

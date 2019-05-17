@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface BaseView {
     void onFinishFetch(List<ImageData> data);
+    void switchDisplayType();
 }
