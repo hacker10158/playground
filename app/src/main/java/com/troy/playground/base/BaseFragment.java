@@ -100,8 +100,10 @@ public class BaseFragment extends DaggerFragment implements BaseView {
         int count = layoutManager.getSpanCount();
         if (count == 1) {
             layoutManager.setSpanCount(3);
+            binding.ivSwitch.setImageResource(R.drawable.grid_icon);
         } else {
             layoutManager.setSpanCount(1);
+            binding.ivSwitch.setImageResource(R.drawable.list_icon);
         }
     }
 }
