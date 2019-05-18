@@ -1,4 +1,4 @@
-package com.troy.playground.base.viewmodel;
+package com.troy.playground.search.viewmodel;
 
 import android.databinding.ObservableField;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.troy.playground.base.view.BaseView;
+import com.troy.playground.search.view.SearchView;
 import com.troy.playground.server.TroyClientInterface;
 import com.troy.playground.server.response.SearchPictureResponse;
 import com.troy.playground.utility.AutoDisposeViewModel;
@@ -22,7 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 
-public class BaseViewModel extends AutoDisposeViewModel {
+public class SearchViewModel extends AutoDisposeViewModel {
 
     private static final int PRELOAD_COUNT = 15;
 
@@ -30,14 +30,14 @@ public class BaseViewModel extends AutoDisposeViewModel {
 
     private TroyClientInterface troyClientInterface;
     private Subject<Integer> scrollSubject;
-    private BaseView baseView;
+    private SearchView searchView;
     private int page = 1;
     private String keyword;
     private boolean isStartLoading = false;
     private boolean isLoadingMore = false;
 
-    public BaseViewModel(BaseView baseView, TroyClientInterface troyClientInterface) {
-        this.baseView = baseView;
+    public SearchViewModel(SearchView searchView, TroyClientInterface troyClientInterface) {
+        this.searchView = searchView;
         this.troyClientInterface = troyClientInterface;
 
         setupScrollSubject();
@@ -45,12 +45,12 @@ public class BaseViewModel extends AutoDisposeViewModel {
 
     public void onSearchClick() {
         keyword = searchText.get();
-//        if (TextUtils.isEmpty(keyword)) {
-//            //TODO please enter key word
-//            return;
-//        }
-        baseView.cleanSearchData();
-        baseView.hideKeyboard();
+        if (TextUtils.isEmpty(keyword)) {
+            searchView.showEmptyInputToast();
+            return;
+        }
+        searchView.cleanSearchData();
+        searchView.hideKeyboard();
         isStartLoading = true;
         isLoadingMore = false;
         page = 1;
@@ -83,7 +83,7 @@ public class BaseViewModel extends AutoDisposeViewModel {
                             isStartLoading = false;
                             return;
                         }
-                        baseView.onFinishFetch(searchPictureResponse.getHits());
+                        searchView.onFinishFetch(searchPictureResponse.getHits());
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -120,7 +120,7 @@ public class BaseViewModel extends AutoDisposeViewModel {
     }
 
     public void onClickSwitchDisplayType() {
-        baseView.switchDisplayType();
+        searchView.switchDisplayType();
     }
 
     public RecyclerView.OnScrollListener createScrollListener() {

@@ -1,4 +1,4 @@
-package com.troy.playground.base.model;
+package com.troy.playground.search.model;
 
 public class ImageData {
     String largeImageURL;

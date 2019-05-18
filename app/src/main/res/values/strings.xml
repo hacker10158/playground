@@ -4,5 +4,6 @@
     <string name="search">Search</string>
     <string name="list">List</string>
     <string name="grid">Grid</string>
+    <string name="input_empty_hint">Please input keyword.</string>
 </resources>
 

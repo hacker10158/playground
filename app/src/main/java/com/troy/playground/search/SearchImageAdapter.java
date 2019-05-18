@@ -1,11 +1,11 @@
-package com.troy.playground.base;
+package com.troy.playground.search;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.troy.playground.base.model.ImageData;
+import com.troy.playground.search.model.ImageData;
 import com.troy.playground.databinding.SearchImageItemBinding;
 
 import java.util.ArrayList;

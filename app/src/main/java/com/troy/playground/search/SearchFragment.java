@@ -1,4 +1,4 @@
-package com.troy.playground.base;
+package com.troy.playground.search;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -12,12 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.troy.playground.R;
-import com.troy.playground.base.model.ImageData;
-import com.troy.playground.base.view.BaseView;
-import com.troy.playground.base.viewmodel.BaseViewModel;
-import com.troy.playground.databinding.FragmentBaseBinding;
+import com.troy.playground.databinding.FragmentSearchBinding;
+import com.troy.playground.search.model.ImageData;
+import com.troy.playground.search.view.SearchView;
+import com.troy.playground.search.viewmodel.SearchViewModel;
 import com.troy.playground.utility.Log;
 
 import java.util.List;
@@ -30,11 +31,11 @@ import io.reactivex.disposables.CompositeDisposable;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
-public class BaseFragment extends DaggerFragment implements BaseView, View.OnKeyListener {
+public class SearchFragment extends DaggerFragment implements SearchView, View.OnKeyListener {
     private final int DEFAULT_SPAN_COUNT = 1;
 
-    private FragmentBaseBinding binding;
-    private BaseViewModel viewModel;
+    private FragmentSearchBinding binding;
+    private SearchViewModel viewModel;
     private StaggeredGridLayoutManager layoutManager;
 
     @Inject
@@ -50,21 +51,21 @@ public class BaseFragment extends DaggerFragment implements BaseView, View.OnKey
 
     private CompositeDisposable compositeDisposable;
 
-    public static BaseFragment newInstance() {
-        return new BaseFragment();
+    public static SearchFragment newInstance() {
+        return new SearchFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(BaseViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SearchViewModel.class);
         compositeDisposable = new CompositeDisposable();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_base, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false);
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }
@@ -139,5 +140,10 @@ public class BaseFragment extends DaggerFragment implements BaseView, View.OnKey
         if (imm != null) {
             imm.hideSoftInputFromWindow(decorView.getWindowToken(), 0);
         }
+    }
+
+    @Override
+    public void showEmptyInputToast() {
+        Toast.makeText(getContext(), R.string.input_empty_hint, Toast.LENGTH_SHORT).show();
     }
 }

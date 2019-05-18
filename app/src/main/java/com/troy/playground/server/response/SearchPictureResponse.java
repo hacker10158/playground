@@ -1,6 +1,6 @@
 package com.troy.playground.server.response;
 
-import com.troy.playground.base.model.ImageData;
+import com.troy.playground.search.model.ImageData;
 
 import java.util.List;
 

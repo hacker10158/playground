@@ -1,12 +1,13 @@
-package com.troy.playground.base.view;
+package com.troy.playground.search.view;
 
-import com.troy.playground.base.model.ImageData;
+import com.troy.playground.search.model.ImageData;
 
 import java.util.List;
 
-public interface BaseView {
+public interface SearchView {
     void cleanSearchData();
     void onFinishFetch(List<ImageData> data);
     void switchDisplayType();
     void hideKeyboard();
+    void showEmptyInputToast();
 }

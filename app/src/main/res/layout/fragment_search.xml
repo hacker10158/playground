@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.troy.playground.base.viewmodel.BaseViewModel" />
+            type="com.troy.playground.search.viewmodel.SearchViewModel" />
     </data>
 
     <RelativeLayout
