@@ -71,11 +71,11 @@ public class TroyClient implements TroyClientInterface {
     public interface MyService {
         @Headers("Content-Type:application/json")
         @GET("api/")
-        Single<SearchPictureResponse> searchPicture(@Query("key") String key, @Query("q") String keyword);
+        Single<SearchPictureResponse> searchPicture(@Query("key") String key, @Query("q") String keyword, @Query("page") int page);
     }
 
     @Override
-    public Single<SearchPictureResponse> searchPicture(String keyword) {
-        return myService.searchPicture("12494785-8e935ca087834ee899281ef5f", keyword);
+    public Single<SearchPictureResponse> searchPicture(String keyword, int page) {
+        return myService.searchPicture("12494785-8e935ca087834ee899281ef5f", keyword, page);
     }
 }

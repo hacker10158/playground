@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.troy.playground.R;
 import com.troy.playground.base.model.ImageData;
@@ -26,7 +28,9 @@ import javax.inject.Named;
 import dagger.android.support.DaggerFragment;
 import io.reactivex.disposables.CompositeDisposable;
 
-public class BaseFragment extends DaggerFragment implements BaseView {
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
+public class BaseFragment extends DaggerFragment implements BaseView, View.OnKeyListener {
 
     private FragmentBaseBinding binding;
     private BaseViewModel viewModel;
@@ -72,7 +76,7 @@ public class BaseFragment extends DaggerFragment implements BaseView {
 
     private void init () {
         binding.tvVersion.setText("Search v" + versionName);
-
+        binding.etInputField.setOnKeyListener(this);
         binding.rvContent.setAdapter(searchImageAdapter);
 
         int spanCount = 3;
@@ -81,6 +85,7 @@ public class BaseFragment extends DaggerFragment implements BaseView {
                 StaggeredGridLayoutManager.VERTICAL);
 
         binding.rvContent.setLayoutManager(layoutManager);
+        binding.rvContent.addOnScrollListener(viewModel.createScrollListener());
     }
 
     @Override
@@ -90,9 +95,14 @@ public class BaseFragment extends DaggerFragment implements BaseView {
     }
 
     @Override
+    public void cleanSearchData() {
+        searchImageAdapter.cleanData();
+    }
+
+    @Override
     public void onFinishFetch(List<ImageData> data) {
         Log.d("onFinishFetch");
-        searchImageAdapter.updateData(data);
+        searchImageAdapter.addData(data);
     }
 
     @Override
@@ -104,6 +114,30 @@ public class BaseFragment extends DaggerFragment implements BaseView {
         } else {
             layoutManager.setSpanCount(1);
             binding.ivSwitch.setImageResource(R.drawable.list_icon);
+        }
+    }
+
+    @Override
+    public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+        if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) &&
+                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+            Log.d("enter clicked");
+            viewModel.onSearchClick();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void hideKeyboard() {
+        if (getActivity() == null) {
+            return;
+        }
+
+        View decorView = getActivity().getWindow().getDecorView();
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(decorView.getWindowToken(), 0);
         }
     }
 }

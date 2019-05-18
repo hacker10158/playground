@@ -34,13 +34,22 @@ public class SearchImageAdapter extends RecyclerView.Adapter<SearchImageViewHold
         return dataList == null ? 0 : dataList.size();
     }
 
-    public void updateData(List<ImageData> data) {
+    public void cleanData() {
+        if (dataList != null) {
+            dataList.clear();
+            notifyDataSetChanged();
+        }
+    }
+
+    public void addData(List<ImageData> data) {
         if (dataList == null) {
             dataList = new ArrayList<>();
         }
-        dataList.clear();
+
+        int start = dataList.size();
         dataList.addAll(data);
-        notifyDataSetChanged();
+        int end = dataList.size();
+        notifyItemRangeInserted(start, end);
     }
 
 }
