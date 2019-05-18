@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#242c31</color>
+    <color name="colorPrimaryDark">#242c31</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorBackground">#00FFAE</color>
 
+    <color name="background_color">#1C2429</color>
+    <color name="tab_background_color">#3C4851</color>
+    <color name="search_button_background">#242C31</color>
+
     <color name="white">#FFFFFF</color>
+
+    <color name="search_field">#343C42</color>
+    <color name="search_field_hint">#9B9B9B</color>
 </resources>

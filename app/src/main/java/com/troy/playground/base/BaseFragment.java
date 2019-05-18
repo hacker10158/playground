@@ -31,6 +31,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class BaseFragment extends DaggerFragment implements BaseView, View.OnKeyListener {
+    private final int DEFAULT_SPAN_COUNT = 1;
 
     private FragmentBaseBinding binding;
     private BaseViewModel viewModel;
@@ -75,13 +76,12 @@ public class BaseFragment extends DaggerFragment implements BaseView, View.OnKey
     }
 
     private void init () {
-        binding.tvVersion.setText("Search v" + versionName);
+        binding.tvVersion.setText(getString(R.string.version, versionName));
         binding.etInputField.setOnKeyListener(this);
         binding.rvContent.setAdapter(searchImageAdapter);
 
-        int spanCount = 3;
         layoutManager = new StaggeredGridLayoutManager(
-                spanCount,
+                DEFAULT_SPAN_COUNT,
                 StaggeredGridLayoutManager.VERTICAL);
 
         binding.rvContent.setLayoutManager(layoutManager);
@@ -110,10 +110,10 @@ public class BaseFragment extends DaggerFragment implements BaseView, View.OnKey
         int count = layoutManager.getSpanCount();
         if (count == 1) {
             layoutManager.setSpanCount(3);
-            binding.ivSwitch.setImageResource(R.drawable.grid_icon);
+            binding.tvSwitch.setText(getString(R.string.grid));
         } else {
             layoutManager.setSpanCount(1);
-            binding.ivSwitch.setImageResource(R.drawable.list_icon);
+            binding.tvSwitch.setText(getString(R.string.list));
         }
     }
 
