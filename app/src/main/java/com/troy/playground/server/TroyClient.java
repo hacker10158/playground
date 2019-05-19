@@ -1,5 +1,8 @@
 package com.troy.playground.server;
 
+import android.content.Context;
+
+import com.troy.playground.R;
 import com.troy.playground.server.response.SearchPictureResponse;
 
 import java.util.Collections;
@@ -27,8 +30,10 @@ public class TroyClient implements TroyClientInterface {
     private MyService myService;
 
     private boolean isRelease = false;
+    private Context context;
+    public TroyClient(Context context) {
+        this.context = context;
 
-    public TroyClient() {
         Dispatcher dispatcher = new Dispatcher();
         dispatcher.setMaxRequests(MAX_REQUESTS);
         dispatcher.setMaxRequestsPerHost(MAX_REQUESTS_PER_HOST);
@@ -56,7 +61,7 @@ public class TroyClient implements TroyClientInterface {
         // should not change this into main branch( ex dev-2.0 or master)
         // It can be test in local by modify settings.xml or create another branch for server build test
 
-        String awsAddress = "https://pixabay.com/";
+        String awsAddress = context.getResources().getString(R.string.server_address);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(awsAddress)
@@ -76,6 +81,7 @@ public class TroyClient implements TroyClientInterface {
 
     @Override
     public Single<SearchPictureResponse> searchPicture(String keyword, int page) {
-        return myService.searchPicture("12494785-8e935ca087834ee899281ef5f", keyword, page);
+        String apiKey = context.getResources().getString(R.string.api_key);
+        return myService.searchPicture(apiKey, keyword, page);
     }
 }

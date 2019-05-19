@@ -10,4 +10,5 @@ public interface SearchView {
     void switchDisplayType();
     void hideKeyboard();
     void showEmptyInputToast();
+    void showLoadingMore(boolean show);
 }

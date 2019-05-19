@@ -1,0 +1,4 @@
+<resources>
+    <string name="server_address">https://pixabay.com/</string>
+    <string name="api_key">12494785-8e935ca087834ee899281ef5f</string>
+</resources>

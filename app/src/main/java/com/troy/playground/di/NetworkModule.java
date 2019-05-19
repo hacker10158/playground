@@ -1,5 +1,7 @@
 package com.troy.playground.di;
 
+import android.content.Context;
+
 import com.troy.playground.server.TroyClient;
 import com.troy.playground.server.TroyClientInterface;
 
@@ -13,7 +15,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    TroyClientInterface provideTroyClientInterface() {
-        return new TroyClient();
+    TroyClientInterface provideTroyClientInterface(Context context) {
+        return new TroyClient(context);
     }
 }

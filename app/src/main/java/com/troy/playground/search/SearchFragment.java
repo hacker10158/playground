@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.troy.playground.R;
 import com.troy.playground.databinding.FragmentSearchBinding;
 import com.troy.playground.search.model.ImageData;
+import com.troy.playground.search.view.SearchImageAdapter;
 import com.troy.playground.search.view.SearchView;
 import com.troy.playground.search.viewmodel.SearchViewModel;
 import com.troy.playground.utility.Log;
@@ -145,5 +146,10 @@ public class SearchFragment extends DaggerFragment implements SearchView, View.O
     @Override
     public void showEmptyInputToast() {
         Toast.makeText(getContext(), R.string.input_empty_hint, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoadingMore(boolean show) {
+        searchImageAdapter.setLoadingMore(show);
     }
 }

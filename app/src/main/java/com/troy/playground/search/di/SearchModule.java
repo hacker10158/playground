@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModelProvider;
 
 import com.troy.playground.ViewModelProviderFactory;
 import com.troy.playground.search.SearchFragment;
-import com.troy.playground.search.SearchImageAdapter;
+import com.troy.playground.search.view.SearchImageAdapter;
 import com.troy.playground.search.view.SearchView;
 import com.troy.playground.search.viewmodel.SearchViewModel;
 import com.troy.playground.server.TroyClientInterface;

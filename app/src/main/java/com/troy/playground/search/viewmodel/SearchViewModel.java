@@ -68,7 +68,7 @@ public class SearchViewModel extends AutoDisposeViewModel {
             Log.d("is loading more");
             return;
         }
-
+        searchView.showLoadingMore(true);
         isLoadingMore = true;
 
         Disposable disposable = troyClientInterface.searchPicture(keyword, page)
@@ -78,18 +78,21 @@ public class SearchViewModel extends AutoDisposeViewModel {
                     @Override
                     public void accept(SearchPictureResponse searchPictureResponse) throws Exception {
                         isLoadingMore = false;
+                        searchView.showLoadingMore(false);
                         page ++;
                         if (searchPictureResponse.getHits() == null || searchPictureResponse.getHits().size() == 0) {
                             isStartLoading = false;
                             return;
                         }
                         searchView.onFinishFetch(searchPictureResponse.getHits());
+
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         isStartLoading = false;
                         isLoadingMore = false;
+                        searchView.showLoadingMore(false);
                         Log.e("Error on fetch data. Throwable : " +throwable.getMessage() );
                     }
                 });

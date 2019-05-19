@@ -1,4 +1,4 @@
-package com.troy.playground.search;
+package com.troy.playground.search.view;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
@@ -16,7 +16,6 @@ public class SearchImageViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindView(ImageData imageData) {
-//        binding.ivImage.setImageURI(imageData.getWebformatURL());
         ViewGroup.LayoutParams params = binding.ivImage.getLayoutParams();
         params.width = imageData.getWebformatWidth();
         params.height = imageData.getWebformatHeight();
