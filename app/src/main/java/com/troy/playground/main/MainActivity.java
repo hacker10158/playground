@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.troy.playground.R;
 import com.troy.playground.base.BaseFragment;
 import com.troy.playground.databinding.ActivityMainBinding;
+import com.troy.playground.piccollage.PicCollageFragment;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
@@ -23,7 +24,7 @@ public class MainActivity extends DaggerAppCompatActivity {
     }
 
     void initUI(){
-        showFragment(BaseFragment.newInstance());
+        showFragment(new PicCollageFragment());
     }
 
     private void showFragment(Fragment fragment) {
