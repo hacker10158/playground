@@ -9,12 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.troy.playground.R
 import com.troy.playground.databinding.FragmentPiccollageBinding
+import com.troy.playground.piccollagequiz2.view.PicCollageView
 import com.troy.playground.piccollagequiz2.viewmodel.PicCollageViewModel
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 import javax.inject.Named
 
-class PicCollageFragment : DaggerFragment() {
+class PicCollageFragment : DaggerFragment(), PicCollageView {
 
     @field:[Inject Named("piccollage")]
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -35,7 +36,6 @@ class PicCollageFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.tvHelloWorld?.setText("Hi PicCollage")
 
     }
 }

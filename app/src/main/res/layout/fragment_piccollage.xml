@@ -9,16 +9,42 @@
             type="com.troy.playground.piccollagequiz2.viewmodel.PicCollageViewModel" />
     </data>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackground">
 
         <TextView
-            android:id="@+id/tv_hello_world"
+            android:id="@+id/tv_pencil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Hello World!" />
+            android:padding="10dp"
+            android:text="Switch" />
 
-    </FrameLayout>
+        <TextView
+            android:id="@+id/tv_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Mode : Eraser" />
+
+        <TextView
+            android:id="@+id/tv_undo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/tv_redo"
+            android:text="Undo" />
+
+        <TextView
+            android:id="@+id/tv_redo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Redo" />
+
+        <com.troy.playground.piccollagequiz2.view.PaintView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="100dp"/>
+    </RelativeLayout>
 </layout>
