@@ -1,8 +1,8 @@
-package com.troy.playground.piccollage.di
+package com.troy.playground.piccollagequiz2.di
 
 import android.arch.lifecycle.ViewModelProvider
 import com.troy.playground.ViewModelProviderFactory
-import com.troy.playground.piccollage.viewmodel.PicCollageViewModel
+import com.troy.playground.piccollagequiz2.viewmodel.PicCollageViewModel
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named

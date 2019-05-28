@@ -1,7 +1,9 @@
-package com.troy.playground.piccollage.quiz1
+package com.troy.playground.piccollagequiz1
 
 class Containing7s {
-    fun counting( n : Int) : Int{
+
+    //test case in Containing7sUnitTest.kt
+    fun containing(n : Int) : Int{
         if(n <= 9) {
             return if (n >= 7) { 1 } else { 0 }
         } else {
@@ -9,14 +11,27 @@ class Containing7s {
             val body = getBody(n)
 
             if (head < 7) {
-                return (head) * counting(convertTo9(n)) + counting(body)
+                return (head) * containing(convertTo9(n)) + containing(body)
             } else if (head == 7) {
-                return (head) * counting(convertTo9(n)) + body + 1
+                return (head) * containing(convertTo9(n)) + body + 1
             } else {
-                return (head - 1) * counting(convertTo9(n)) + counting(body) + convertTo9(n) + 1
+                return (head - 1) * containing(convertTo9(n)) + containing(body) + convertTo9(n) + 1
             }
         }
     }
+
+//    right answer but bad performance on big number
+//
+//    private fun containing ( n : Int) : Int{
+//        var counter = 0
+//        for (i in 1..n) {
+//            if (i.toString().contains("7")) {
+//                counter++
+//            }
+//        }
+//
+//        return  counter
+//    }
 
     private fun getHead(n : Int) : Int {
         return Character.getNumericValue(n.toString()[0])
@@ -36,4 +51,5 @@ class Containing7s {
         }
         return num
     }
+
 }

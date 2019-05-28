@@ -7,9 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.troy.playground.R;
-import com.troy.playground.base.BaseFragment;
 import com.troy.playground.databinding.ActivityMainBinding;
-import com.troy.playground.piccollage.PicCollageFragment;
+import com.troy.playground.piccollagequiz2.PicCollageFragment;
 
 import dagger.android.support.DaggerAppCompatActivity;
 

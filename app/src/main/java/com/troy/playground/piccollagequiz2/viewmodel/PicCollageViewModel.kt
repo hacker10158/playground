@@ -1,4 +1,4 @@
-package com.troy.playground.piccollage.viewmodel
+package com.troy.playground.piccollagequiz2.viewmodel
 
 import com.troy.playground.utility.AutoDisposeViewModel
 
