@@ -44,10 +44,10 @@ class PicCollageFragment : DaggerFragment(), PicCollageView {
     }
 
     override fun undo() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        binding?.pvBoard?.Undo()
     }
 
     override fun redo() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        binding?.pvBoard?.Redo()
     }
 }

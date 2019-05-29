@@ -30,4 +30,12 @@ class PicCollageViewModel(picCollageView: PicCollageView) : AutoDisposeViewModel
             }
         }
     }
+
+    public fun onClickUndo() {
+        picCollageView?.undo()
+    }
+
+    public fun onClickRedo() {
+        picCollageView?.redo()
+    }
 }

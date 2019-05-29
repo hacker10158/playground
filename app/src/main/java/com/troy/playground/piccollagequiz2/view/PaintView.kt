@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import com.troy.playground.piccollagequiz2.PathInfo
 
 class PaintView : View {
 
@@ -23,15 +24,19 @@ class PaintView : View {
     private var eraserPaint = Paint()
     private var bitmap: Bitmap? = null
     private var canvas: Canvas? = null
-    private val path = Path()
-    private var eraserMode = false
+    private var path = Path()
+    private var currentMode = MODE_PENCIL
 
     private var posX = 0f
     private var posY = 0f
+    private val pathInfos = ArrayList<PathInfo>()
+    private val undonePathInfos = ArrayList<PathInfo>()
+
 
     init {
         setupPaint()
         setupEraser()
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -42,14 +47,20 @@ class PaintView : View {
 
     override fun onDraw(canvas: Canvas) {
         canvas.drawColor(Color.TRANSPARENT)
-        canvas.drawBitmap(bitmap, 0f, 0f, pencilPaint)
-        if(!eraserMode) {
-            canvas.drawPath(path, pencilPaint)
+
+        for (p in pathInfos) {
+            canvas.drawPath(p.path, p.paint)
         }
 
+        if (currentMode == MODE_PENCIL) {
+            canvas.drawPath(path, pencilPaint)
+        } else {
+            canvas.drawPath(path, eraserPaint)
+        }
     }
 
     private fun touchStart(x: Float, y: Float) {
+        undonePathInfos.clear()
         path.reset()
         path.moveTo(x, y)
         posX = x
@@ -63,24 +74,20 @@ class PaintView : View {
             path.quadTo(posX, posY, (x + posX) / 2, (y + posY) / 2)
             posX = x
             posY = y
-
-            if (eraserMode) {
-                canvas?.drawPath(path, eraserPaint)
-            }
         }
     }
 
     private fun touchUp() {
         path.lineTo(posX, posY)
         // commit the path to our offscreen
-        if (eraserMode) {
-            canvas?.drawPath(path, eraserPaint)
-        } else {
+        if (currentMode == MODE_PENCIL) {
             canvas?.drawPath(path, pencilPaint)
+            pathInfos.add(PathInfo(path, pencilPaint))
+        } else {
+            canvas?.drawPath(path, eraserPaint)
+            pathInfos.add(PathInfo(path, eraserPaint))
         }
-
-        // kill this so we don't double draw
-        path.reset()
+        path = Path()
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -106,16 +113,30 @@ class PaintView : View {
     public fun switchMode(mode : Int) {
         when(mode) {
             MODE_PENCIL ->{
-                eraserMode = false
+                currentMode = MODE_PENCIL
             }
             MODE_ERASER ->{
-                eraserMode = true
+                currentMode = MODE_ERASER
             }
         }
     }
 
-    fun drawPath() {
+    fun Undo() {
+        if (pathInfos.size > 0)
+        {
+            undonePathInfos.add(pathInfos[pathInfos.size-1])
+            pathInfos.removeAt(pathInfos.size-1)
+            invalidate()
+        }
+    }
 
+    fun Redo() {
+        if (undonePathInfos.size > 0)
+        {
+            pathInfos.add(undonePathInfos[undonePathInfos.size-1])
+            undonePathInfos.removeAt(undonePathInfos.size-1)
+            invalidate()
+        }
     }
 
     private fun setupPaint() {
@@ -125,7 +146,6 @@ class PaintView : View {
     }
 
     private fun setupEraser() {
-
         eraserPaint.style = Paint.Style.STROKE
         eraserPaint.strokeWidth = 40f
         eraserPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
