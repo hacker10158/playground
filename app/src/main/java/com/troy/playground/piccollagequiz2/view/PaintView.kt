@@ -7,61 +7,80 @@ import android.view.MotionEvent
 import android.view.View
 
 class PaintView : View {
+
+    companion object {
+        const val MODE_PENCIL = 0
+        const val MODE_ERASER = 1
+
+        const val TOUCH_TOLERANCE = 4f
+    }
+
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    private var mPaint: Paint? = null
-    private var mBitmap: Bitmap? = null
-    private var mBitmapCanvas: Canvas? = null
-    private val mPath = Path()
+    private var pencilPaint = Paint()
+    private var eraserPaint = Paint()
+    private var bitmap: Bitmap? = null
+    private var canvas: Canvas? = null
+    private val path = Path()
+    private var eraserMode = false
+
+    private var posX = 0f
+    private var posY = 0f
 
     init {
-        mPaint = Paint()
-        mPaint?.setColor(Color.RED)
-        mPaint?.setStrokeWidth(6f)
-        mPaint?.style = Paint.Style.STROKE
+        setupPaint()
+        setupEraser()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
-        mBitmapCanvas = Canvas(mBitmap)
-        mBitmapCanvas?.drawColor(Color.GRAY)
+        bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+        canvas = Canvas(bitmap)
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawBitmap(mBitmap, 0f, 0f, mPaint)
-        canvas.drawPath(mPath, mPaint)
+        canvas.drawColor(Color.TRANSPARENT)
+        canvas.drawBitmap(bitmap, 0f, 0f, pencilPaint)
+        if(!eraserMode) {
+            canvas.drawPath(path, pencilPaint)
+        }
+
     }
 
-    private var mX = 0f
-    private var mY = 0f
-    private val TOUCH_TOLERANCE = 4f
-
     private fun touchStart(x: Float, y: Float) {
-        mPath.reset()
-        mPath.moveTo(x, y)
-        mX = x
-        mY = y
+        path.reset()
+        path.moveTo(x, y)
+        posX = x
+        posY = y
     }
 
     private fun touchMove(x: Float, y: Float) {
-        val dx = Math.abs(x - mX)
-        val dy = Math.abs(y - mY)
+        val dx = Math.abs(x - posX)
+        val dy = Math.abs(y - posY)
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-            mPath.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2)
-            mX = x
-            mY = y
+            path.quadTo(posX, posY, (x + posX) / 2, (y + posY) / 2)
+            posX = x
+            posY = y
+
+            if (eraserMode) {
+                canvas?.drawPath(path, eraserPaint)
+            }
         }
     }
 
     private fun touchUp() {
-        mPath.lineTo(mX, mY)
+        path.lineTo(posX, posY)
         // commit the path to our offscreen
-        mBitmapCanvas?.drawPath(mPath, mPaint)
+        if (eraserMode) {
+            canvas?.drawPath(path, eraserPaint)
+        } else {
+            canvas?.drawPath(path, pencilPaint)
+        }
+
         // kill this so we don't double draw
-        mPath.reset()
+        path.reset()
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -82,5 +101,33 @@ class PaintView : View {
             }
         }
         return true
+    }
+
+    public fun switchMode(mode : Int) {
+        when(mode) {
+            MODE_PENCIL ->{
+                eraserMode = false
+            }
+            MODE_ERASER ->{
+                eraserMode = true
+            }
+        }
+    }
+
+    fun drawPath() {
+
+    }
+
+    private fun setupPaint() {
+        pencilPaint.color = Color.RED
+        pencilPaint.style = Paint.Style.STROKE
+        pencilPaint.strokeWidth = 20f
+    }
+
+    private fun setupEraser() {
+
+        eraserPaint.style = Paint.Style.STROKE
+        eraserPaint.strokeWidth = 40f
+        eraserPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
     }
 }

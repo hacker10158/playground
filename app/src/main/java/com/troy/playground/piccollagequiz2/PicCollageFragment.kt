@@ -38,4 +38,16 @@ class PicCollageFragment : DaggerFragment(), PicCollageView {
         super.onViewCreated(view, savedInstanceState)
 
     }
+
+    override fun switchMode(mode: Int) {
+        binding?.pvBoard?.switchMode(mode)
+    }
+
+    override fun undo() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun redo() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
