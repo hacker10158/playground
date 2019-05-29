@@ -36,18 +36,13 @@ class PicCollageFragment : DaggerFragment(), PicCollageView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 
     override fun switchMode(mode: Int) {
         binding?.pvBoard?.switchMode(mode)
     }
 
-    override fun undo() {
-        binding?.pvBoard?.Undo()
-    }
-
-    override fun redo() {
-        binding?.pvBoard?.Redo()
+    override fun updatePathInfos(pathInfos: ArrayList<PathInfo>) {
+        binding?.pvBoard?.updatePathInfos(pathInfos)
     }
 }

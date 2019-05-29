@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.troy.playground.piccollagequiz2.PathInfo
+import com.troy.playground.rxbus.PathUpdater
 
 class PaintView : View {
 
@@ -18,30 +19,26 @@ class PaintView : View {
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private var pencilPaint = Paint()
     private var eraserPaint = Paint()
-    private var bitmap: Bitmap? = null
     private var canvas: Canvas? = null
     private var path = Path()
-    private var currentMode = MODE_PENCIL
+    private var currentPathInfo = PathInfo(path, pencilPaint)
+    private var pathInfos = ArrayList<PathInfo>()
 
     private var posX = 0f
     private var posY = 0f
-    private val pathInfos = ArrayList<PathInfo>()
-    private val undonePathInfos = ArrayList<PathInfo>()
-
 
     init {
-        setupPaint()
-        setupEraser()
+        setupPencilPaint()
+        setupEraserPaint()
         setLayerType(LAYER_TYPE_SOFTWARE, null)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         canvas = Canvas(bitmap)
     }
 
@@ -52,17 +49,12 @@ class PaintView : View {
             canvas.drawPath(p.path, p.paint)
         }
 
-        if (currentMode == MODE_PENCIL) {
-            canvas.drawPath(path, pencilPaint)
-        } else {
-            canvas.drawPath(path, eraserPaint)
-        }
+        canvas.drawPath(currentPathInfo.path, currentPathInfo.paint)
     }
 
     private fun touchStart(x: Float, y: Float) {
-        undonePathInfos.clear()
-        path.reset()
-        path.moveTo(x, y)
+        currentPathInfo.path?.reset()
+        currentPathInfo.path?.moveTo(x, y)
         posX = x
         posY = y
     }
@@ -71,23 +63,21 @@ class PaintView : View {
         val dx = Math.abs(x - posX)
         val dy = Math.abs(y - posY)
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-            path.quadTo(posX, posY, (x + posX) / 2, (y + posY) / 2)
+            currentPathInfo.path?.quadTo(posX, posY, (x + posX) / 2, (y + posY) / 2)
             posX = x
             posY = y
         }
     }
 
     private fun touchUp() {
-        path.lineTo(posX, posY)
+        currentPathInfo.path?.lineTo(posX, posY)
         // commit the path to our offscreen
-        if (currentMode == MODE_PENCIL) {
-            canvas?.drawPath(path, pencilPaint)
-            pathInfos.add(PathInfo(path, pencilPaint))
-        } else {
-            canvas?.drawPath(path, eraserPaint)
-            pathInfos.add(PathInfo(path, eraserPaint))
-        }
-        path = Path()
+        canvas?.drawPath(currentPathInfo.path, currentPathInfo.paint)
+        pathInfos.add(currentPathInfo)
+
+        PathUpdater.getInstance().notify(currentPathInfo)
+        currentPathInfo = PathInfo(Path(), currentPathInfo.paint)
+
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -110,44 +100,31 @@ class PaintView : View {
         return true
     }
 
-    public fun switchMode(mode : Int) {
-        when(mode) {
-            MODE_PENCIL ->{
-                currentMode = MODE_PENCIL
-            }
-            MODE_ERASER ->{
-                currentMode = MODE_ERASER
-            }
-        }
-    }
-
-    fun Undo() {
-        if (pathInfos.size > 0)
-        {
-            undonePathInfos.add(pathInfos[pathInfos.size-1])
-            pathInfos.removeAt(pathInfos.size-1)
-            invalidate()
-        }
-    }
-
-    fun Redo() {
-        if (undonePathInfos.size > 0)
-        {
-            pathInfos.add(undonePathInfos[undonePathInfos.size-1])
-            undonePathInfos.removeAt(undonePathInfos.size-1)
-            invalidate()
-        }
-    }
-
-    private fun setupPaint() {
+    private fun setupPencilPaint() {
         pencilPaint.color = Color.RED
         pencilPaint.style = Paint.Style.STROKE
         pencilPaint.strokeWidth = 20f
     }
 
-    private fun setupEraser() {
+    private fun setupEraserPaint() {
         eraserPaint.style = Paint.Style.STROKE
         eraserPaint.strokeWidth = 40f
         eraserPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+    }
+
+    fun switchMode(mode : Int) {
+        when(mode) {
+            MODE_PENCIL ->{
+                currentPathInfo.paint = pencilPaint
+            }
+            MODE_ERASER ->{
+                currentPathInfo.paint = eraserPaint
+            }
+        }
+    }
+
+    fun updatePathInfos(pathInfos: ArrayList<PathInfo>) {
+        this.pathInfos = pathInfos
+        invalidate()
     }
 }
