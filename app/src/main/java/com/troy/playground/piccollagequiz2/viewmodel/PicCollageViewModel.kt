@@ -1,6 +1,7 @@
 package com.troy.playground.piccollagequiz2.viewmodel
 
-import android.databinding.ObservableField
+import android.databinding.ObservableBoolean
+import android.databinding.ObservableInt
 import com.troy.playground.piccollagequiz2.PathInfo
 import com.troy.playground.piccollagequiz2.view.PaintView
 import com.troy.playground.piccollagequiz2.view.PicCollageView
@@ -10,22 +11,22 @@ import com.troy.playground.utility.Log
 import io.reactivex.rxkotlin.subscribeBy
 
 class PicCollageViewModel(picCollageView: PicCollageView) : AutoDisposeViewModel() {
-    val modeText = ObservableField<String>()
-
+    var mode = ObservableInt(PaintView.MODE_PENCIL)
+    var allowUndo = ObservableBoolean(false)
+    var allowRedo = ObservableBoolean(false)
     private var picCollageView : PicCollageView? = null
-    private var currentMode = PaintView.MODE_PENCIL
 
     private val pathInfos = ArrayList<PathInfo>()
     private val undonePathInfos = ArrayList<PathInfo>()
 
     init {
         this.picCollageView = picCollageView
-        this.modeText.set("Mode : PANCIL")
         val disposable = PathUpdater.getInstance().updater
                 .subscribeBy(
                         onNext = {
                             pathInfos.add(it)
                             undonePathInfos.clear() //clear undone path when draw
+                            checkUndoRedoIcon()
                         },
                         onError = {
                             Log.e("Error on catch path info. Throwable : " + it.message )
@@ -36,19 +37,14 @@ class PicCollageViewModel(picCollageView: PicCollageView) : AutoDisposeViewModel
 
     }
 
-    fun onClickSwitchMode() {
-        when(currentMode) {
-            PaintView.MODE_PENCIL -> {
-                currentMode = PaintView.MODE_ERASER
-                picCollageView?.switchMode(currentMode)
-                this.modeText.set("Mode : ERASER")
-            }
-            PaintView.MODE_ERASER -> {
-                currentMode = PaintView.MODE_PENCIL
-                picCollageView?.switchMode(currentMode)
-                this.modeText.set("Mode : PANCIL")
-            }
-        }
+    fun onClickPencil() {
+        mode.set(PaintView.MODE_PENCIL)
+        picCollageView?.setMode(PaintView.MODE_PENCIL)
+    }
+
+    fun onClickEraser() {
+        mode.set(PaintView.MODE_ERASER)
+        picCollageView?.setMode(PaintView.MODE_ERASER)
     }
 
     fun onClickUndo() {
@@ -57,6 +53,8 @@ class PicCollageViewModel(picCollageView: PicCollageView) : AutoDisposeViewModel
             undonePathInfos.add(pathInfos[pathInfos.size-1])
             pathInfos.removeAt(pathInfos.size-1)
             picCollageView?.updatePathInfos(pathInfos)
+
+            checkUndoRedoIcon()
         }
     }
 
@@ -66,6 +64,13 @@ class PicCollageViewModel(picCollageView: PicCollageView) : AutoDisposeViewModel
             pathInfos.add(undonePathInfos[undonePathInfos.size-1])
             undonePathInfos.removeAt(undonePathInfos.size-1)
             picCollageView?.updatePathInfos(pathInfos)
+
+            checkUndoRedoIcon()
         }
+    }
+
+    fun checkUndoRedoIcon() {
+        allowUndo.set(pathInfos.size > 0)
+        allowRedo.set(undonePathInfos.size > 0)
     }
 }

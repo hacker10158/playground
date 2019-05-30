@@ -38,7 +38,7 @@ class PicCollageFragment : DaggerFragment(), PicCollageView {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun switchMode(mode: Int) {
+    override fun setMode(mode: Int) {
         binding?.pvBoard?.switchMode(mode)
     }
 

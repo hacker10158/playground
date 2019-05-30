@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:piccollage="http://schemas.android.com/apk/res-auto">
 
     <data>
         <import type="android.view.View"/>
@@ -14,45 +15,57 @@
         android:layout_height="match_parent"
         android:background="@color/colorBackground">
 
-        <TextView
-            android:id="@+id/tv_pencil"
+        <ImageView
+            android:id="@+id/iv_pencil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Switch"
-            android:onClick="@{()->viewModel.onClickSwitchMode()}"/>
+            android:src="@drawable/ic_pencil"
+            android:onClick="@{()->viewModel.onClickPencil()}"
+            piccollage:pencil="@{viewModel.mode}"/>
 
-        <TextView
-            android:id="@+id/tv_mode"
+        <ImageView
+            android:id="@+id/iv_eraser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="@{viewModel.modeText}"
-            tools:text="Mode : Eraser" />
-
-        <TextView
-            android:id="@+id/tv_undo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/tv_redo"
+            android:layout_toEndOf="@+id/iv_pencil"
             android:padding="10dp"
-            android:text="Undo"
-            android:onClick="@{()->viewModel.onClickUndo()}"/>
+            android:src="@drawable/ic_eraser"
+            android:onClick="@{()->viewModel.onClickEraser()}"
+            piccollage:eraser="@{viewModel.mode}"/>
 
-        <TextView
-            android:id="@+id/tv_redo"
+        <ImageView
+            android:id="@+id/iv_undo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/iv_redo"
+            android:padding="10dp"
+            android:src="@drawable/ic_undo"
+            android:onClick="@{()->viewModel.onClickUndo()}"
+            piccollage:undo="@{viewModel.allowUndo}"/>
+
+        <ImageView
+            android:id="@+id/iv_redo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:padding="10dp"
-            android:text="Redo"
-            android:onClick="@{()->viewModel.onClickRedo()}"/>
+            android:src="@drawable/ic_redo"
+            android:onClick="@{()->viewModel.onClickRedo()}"
+            piccollage:redo="@{viewModel.allowRedo}"/>
+
+        <View
+            android:id="@+id/v_board_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/iv_pencil"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorPrimary"/>
 
         <com.troy.playground.piccollagequiz2.view.PaintView
             android:id="@+id/pv_board"
+            android:layout_below="@+id/v_board_divider"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="100dp"/>
+            android:layout_height="match_parent" />
     </RelativeLayout>
 </layout>
