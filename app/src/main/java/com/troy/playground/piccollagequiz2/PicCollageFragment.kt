@@ -39,7 +39,7 @@ class PicCollageFragment : DaggerFragment(), PicCollageView {
     }
 
     override fun setMode(mode: Int) {
-        binding?.pvBoard?.switchMode(mode)
+        binding?.pvBoard?.setMode(mode)
     }
 
     override fun updatePathInfos(pathInfos: ArrayList<PathInfo>) {

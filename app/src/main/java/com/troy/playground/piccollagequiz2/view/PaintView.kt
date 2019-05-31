@@ -112,7 +112,7 @@ class PaintView : View {
         eraserPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
     }
 
-    fun switchMode(mode : Int) {
+    fun setMode(mode : Int) {
         when(mode) {
             MODE_PENCIL ->{
                 currentPathInfo.paint = pencilPaint

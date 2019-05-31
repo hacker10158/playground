@@ -12,8 +12,8 @@ import io.reactivex.rxkotlin.subscribeBy
 
 class PicCollageViewModel(picCollageView: PicCollageView) : AutoDisposeViewModel() {
     var mode = ObservableInt(PaintView.MODE_PENCIL)
-    var allowUndo = ObservableBoolean(false)
-    var allowRedo = ObservableBoolean(false)
+    var enableUndo = ObservableBoolean(false)
+    var enableRedo = ObservableBoolean(false)
     private var picCollageView : PicCollageView? = null
 
     private val pathInfos = ArrayList<PathInfo>()
@@ -70,7 +70,7 @@ class PicCollageViewModel(picCollageView: PicCollageView) : AutoDisposeViewModel
     }
 
     fun checkUndoRedoIcon() {
-        allowUndo.set(pathInfos.size > 0)
-        allowRedo.set(undonePathInfos.size > 0)
+        enableUndo.set(pathInfos.size > 0)
+        enableRedo.set(undonePathInfos.size > 0)
     }
 }
