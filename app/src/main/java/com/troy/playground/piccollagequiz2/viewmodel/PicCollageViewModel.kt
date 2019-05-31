@@ -14,8 +14,8 @@ class PicCollageViewModel(picCollageView: PicCollageView) : AutoDisposeViewModel
     var mode = ObservableInt(PaintView.MODE_PENCIL)
     var enableUndo = ObservableBoolean(false)
     var enableRedo = ObservableBoolean(false)
-    private var picCollageView : PicCollageView? = null
 
+    private var picCollageView : PicCollageView? = null
     private val pathInfos = ArrayList<PathInfo>()
     private val undonePathInfos = ArrayList<PathInfo>()
 
@@ -26,7 +26,7 @@ class PicCollageViewModel(picCollageView: PicCollageView) : AutoDisposeViewModel
                         onNext = {
                             pathInfos.add(it)
                             undonePathInfos.clear() //clear undone path when draw
-                            checkUndoRedoIcon()
+                            updateUndoRedoIcon()
                         },
                         onError = {
                             Log.e("Error on catch path info. Throwable : " + it.message )
@@ -54,7 +54,7 @@ class PicCollageViewModel(picCollageView: PicCollageView) : AutoDisposeViewModel
             pathInfos.removeAt(pathInfos.size-1)
             picCollageView?.updatePathInfos(pathInfos)
 
-            checkUndoRedoIcon()
+            updateUndoRedoIcon()
         }
     }
 
@@ -65,11 +65,11 @@ class PicCollageViewModel(picCollageView: PicCollageView) : AutoDisposeViewModel
             undonePathInfos.removeAt(undonePathInfos.size-1)
             picCollageView?.updatePathInfos(pathInfos)
 
-            checkUndoRedoIcon()
+            updateUndoRedoIcon()
         }
     }
 
-    fun checkUndoRedoIcon() {
+    private fun updateUndoRedoIcon() {
         enableUndo.set(pathInfos.size > 0)
         enableRedo.set(undonePathInfos.size > 0)
     }
