@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PicCollage</string>
+    <string name="title_text">My Painter</string>
 </resources>

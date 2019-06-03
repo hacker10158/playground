@@ -32,6 +32,16 @@
             android:onClick="@{()->viewModel.onClickEraser()}"
             android:eraser="@{viewModel.mode}"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:padding="12dp"
+            android:text="@string/title_text"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"/>
+
         <ImageView
             android:id="@+id/iv_undo"
             android:layout_width="wrap_content"
