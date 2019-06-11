@@ -124,7 +124,8 @@ class PaintView : View {
     }
 
     fun updatePathInfos(pathInfos: ArrayList<PathInfo>) {
-        this.pathInfos = pathInfos
+        this.pathInfos.clear()
+        this.pathInfos.addAll(pathInfos)
         invalidate()
     }
 }
